@@ -1,6 +1,7 @@
 'use client';
 
 import { Card } from './mock';
+import DynamicDiscountForm from '../components/DynamicDiscountForm';
 import { formatPrice } from '@/shared/utils/formatPrice';
 import { useState } from 'react';
 
@@ -16,6 +17,12 @@ export interface Benefit {
   title: string;
   summary: string;
   description: string;
+  grades: [];
+}
+
+export interface grades {
+  required_payment: string;
+  max_benefit: string;
 }
 
 // 카드 타입
@@ -123,7 +130,6 @@ export default function PostPage() {
         </div>
 
         <div className="space-y-4">
-          {/* 대중교통 입력 */}
           <div>
             <label className="mb-1 block font-medium text-gray-700">
               대중교통 사용금액
@@ -181,6 +187,60 @@ export default function PostPage() {
             </div>
           </div>
         </div>
+
+        <div className="mt-8">
+          <h3 className="mb-2 text-lg font-semibold">
+            선택한 전월실적별 최대혜택
+          </h3>
+          {selectedPreviousPayment ? (
+            <div className="space-y-3">
+              {data?.benefits.map((benefit) => {
+                // 선택한 실적 이하 중 가장 큰 구간의 혜택만 표시
+                const selectedGrade = benefit.grades
+                  ?.filter(
+                    (grade) =>
+                      Number(grade.required_payment) <=
+                      Number(selectedPreviousPayment),
+                  )
+                  .sort(
+                    (a, b) =>
+                      Number(b.required_payment) - Number(a.required_payment),
+                  )[0];
+
+                return (
+                  <div
+                    key={benefit.id}
+                    className="rounded-md border bg-gray-50 px-4 py-2"
+                  >
+                    <div className="font-semibold">{benefit.title}</div>
+                    {selectedGrade ? (
+                      <div className="text-sm text-gray-600">
+                        최대혜택:{' '}
+                        <span className="font-bold text-green-600">
+                          {Number(selectedGrade.max_benefit).toLocaleString()}원
+                        </span>
+                        <span className="ml-3 text-gray-400">
+                          (실적:{' '}
+                          {Number(
+                            selectedGrade.required_payment,
+                          ).toLocaleString()}
+                          원)
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-gray-400">
+                        해당 실적 구간 혜택 없음
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-gray-400">전월실적을 선택하세요.</div>
+          )}
+        </div>
+
         {/* 총 할인액 */}
         <div className="mt-4 flex justify-between rounded-lg bg-green-50 px-20 py-4 text-center">
           <div>
@@ -196,6 +256,22 @@ export default function PostPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <DynamicDiscountForm />
+
+      <div className="my-20 flex flex-col items-center justify-center">
+        {data?.benefits.map((benefit) => (
+          <div
+            key={benefit.id}
+            className="w-full max-w-xl rounded-lg bg-gray-50 p-6"
+          >
+            <div className="text-text font-semibold">{benefit.title}</div>
+            <div className="text-xs text-gray-500">
+              <div dangerouslySetInnerHTML={{ __html: benefit.description }} />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
