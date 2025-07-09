@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -6,8 +6,30 @@
 }
 
 @theme inline {
+  /* — Primary Green Palette */
+  --color-primary-light: #e6fcec; /* bg-primary-light */
+  --color-primary: #00c73c; /* bg-primary / text-primary */
+  --color-primary-dark: #007f2f; /* hover:bg-primary-dark */
+
+  /* — Neutral Gray Scale */
+  --color-gray100: #f8f8f8; /* bg-gray-100 */
+  --color-gray200: #eeeeee; /* border-gray-200 */
+  --color-gray500: #666666; /* text-gray-500 */
+  --color-gray700: #333333; /* text-gray-700 */
+  --color-white: #ffffff; /* bg-white */
+
+  /* — Status & Interaction */
+  --color-success: #34c759; /* text-success / bg-success */
+  --color-info: #0063f2; /* text-info */
+  --color-warning: #ffcc00; /* text-warning */
+  --color-error: #ff4d4f; /* text-error */
+  --color-text: #111111;
+
+  /* — 기존 테마 변수 (필요에 따라 조정) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-main: #0064ff;
+  /* — 폰트 설정 */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
