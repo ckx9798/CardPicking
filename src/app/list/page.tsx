@@ -31,6 +31,14 @@ export default function ListPage() {
     });
   }, [searchTerm, selectedCompanies, selectedBenefits]);
 
+  const toggleCompanyFilter = (company) => {
+    setSelectedCompanies((prev) =>
+      prev.includes(company)
+        ? prev.filter((c) => c !== company)
+        : [...prev, company],
+    );
+  };
+
   return (
     <div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-6 shadow">
       {/* 헤더 */}
