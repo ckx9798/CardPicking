@@ -65,6 +65,13 @@ export default function ListPage() {
     '주유',
   ];
 
+  const getBenefitIcon = (benefitText) => {
+    for (const key in benefitIcons) {
+      if (benefitText.includes(key)) return benefitIcons[key];
+    }
+    return '✔️'; // 기본 아이콘
+  };
+
   return (
     <div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-6 shadow">
       {/* 헤더 */}
