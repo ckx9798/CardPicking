@@ -39,6 +39,14 @@ export default function ListPage() {
     );
   };
 
+  const toggleBenefitFilter = (benefit) => {
+    setSelectedBenefits((prev) =>
+      prev.includes(benefit)
+        ? prev.filter((b) => b !== benefit)
+        : [...prev, benefit],
+    );
+  };
+
   const allCompanies = [
     '신한카드',
     'KB국민카드',
