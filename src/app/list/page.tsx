@@ -12,27 +12,24 @@ export default function ListPage() {
   const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [selectedBenefits, setSelectedBenefits] = useState([]);
 
-  const filteredAndSortedCards = () => {
-      return mockCardData.filter((card) => {
-        // 검색어 필터 (카드 이름, 설명으로 검색)
-        const searchTermMatch =
-          card.card_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.card_description
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        // 카드사 필터
-        const companyMatch =
-          selectedCompanies.length === 0 ||
-          selectedCompanies.includes(card.bank_name);
-        // 혜택 필터
-        const benefitMatch =
-          selectedBenefits.length === 0 ||
-          selectedBenefits.every((benefit) => card.tags.includes(benefit));
+  const filteredAndSortedCards = useMemo(() => {
+    return mockCardData.filter((card) => {
+      // 검색어 필터 (카드 이름, 설명으로 검색)
+      const searchTermMatch =
+        card.card_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        card.card_description.toLowerCase().includes(searchTerm.toLowerCase());
+      // 카드사 필터
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(card.bank_name);
+      // 혜택 필터
+      const benefitMatch =
+        selectedBenefits.length === 0 ||
+        selectedBenefits.every((benefit) => card.tags.includes(benefit));
 
-        return searchTermMatch && companyMatch && benefitMatch;
-      });
-    },
-    [searchTerm, selectedCompanies, selectedBenefits];
+      return searchTermMatch && companyMatch && benefitMatch;
+    });
+  }, [searchTerm, selectedCompanies, selectedBenefits]);
 
   return (
     <div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-6 shadow">
