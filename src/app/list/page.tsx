@@ -55,6 +55,15 @@ export default function ListPage() {
     '롯데카드',
     '우리카드',
   ];
+  const allBenefits = [
+    '교통',
+    '쇼핑',
+    '통신',
+    '커피',
+    '여행',
+    '프리미엄',
+    '주유',
+  ];
 
   return (
     <div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-6 shadow">
@@ -95,6 +104,23 @@ export default function ListPage() {
               className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedCompanies.includes(company) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
             >
               {company}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="mb-2 block text-sm font-medium text-slate-600">
+          주요 혜택
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {allBenefits.map((benefit) => (
+            <button
+              key={benefit}
+              onClick={() => toggleBenefitFilter(benefit)}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedBenefits.includes(benefit) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            >
+              {benefit}
             </button>
           ))}
         </div>
