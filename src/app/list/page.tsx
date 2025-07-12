@@ -65,6 +65,20 @@ export default function ListPage() {
     '주유',
   ];
 
+  const benefitIcons = {
+    교통: '🚌',
+    대중교통: '🚌',
+    택시: '🚕',
+    쇼핑: '🛍️',
+    백화점: '🏬',
+    커피: '☕',
+    통신: '📞',
+    여행: '✈️',
+    프리미엄: '💎',
+    주유: '⛽️',
+    영화: '🍿',
+  };
+
   const getBenefitIcon = (benefitText) => {
     for (const key in benefitIcons) {
       if (benefitText.includes(key)) return benefitIcons[key];
