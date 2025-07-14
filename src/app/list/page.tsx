@@ -110,24 +110,58 @@ export default function ListPage() {
         </div>
       </header>
 
-      <h3 className="mb-4 text-lg font-semibold text-slate-700">
-        상세 조건 설정
-      </h3>
-      <div className="mb-4">
-        <label className="mb-2 block text-sm font-medium text-slate-600">
-          카드사
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {allCompanies.map((company) => (
-            <button
-              key={company}
-              onClick={() => toggleCompanyFilter(company)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedCompanies.includes(company) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-            >
-              {company}
-            </button>
-          ))}
+      {/* 필터섹션 */}
+      <div className="mb-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-slate-700">
+          상세 조건 설정
+        </h3>
+        <div className="mb-4">
+          <label className="mb-2 block text-sm font-medium text-slate-600">
+            카드사
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {allCompanies.map((company) => (
+              <button
+                key={company}
+                onClick={() => toggleCompanyFilter(company)}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedCompanies.includes(company) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+              >
+                {company}
+              </button>
+            ))}
+          </div>
         </div>
+        <div>
+          <label className="mb-2 block text-sm font-medium text-slate-600">
+            주요 혜택
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {allBenefits.map((benefit) => (
+              <button
+                key={benefit}
+                onClick={() => toggleBenefitFilter(benefit)}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedBenefits.includes(benefit) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+              >
+                {benefit}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 결과 헤더  */}
+      <div className="mb-6 flex items-center justify-between">
+        <p className="text-base font-medium text-slate-700">
+          <span className="font-bold text-indigo-600">
+            {filteredAndSortedCards.length}개
+          </span>
+          의 카드를 찾았어요.
+        </p>
+        <select className="rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+          <option>인기순</option>
+          <option>혜택 많은 순</option>
+          <option>연회비 낮은 순</option>
+        </select>
       </div>
 
       <div>
