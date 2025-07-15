@@ -11,6 +11,7 @@ export default function ListPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [selectedBenefits, setSelectedBenefits] = useState([]);
+  const [comparisonList, setComparisonList] = useState([]);
 
   const filteredAndSortedCards = useMemo(() => {
     return mockCardData.filter((card) => {
@@ -45,6 +46,18 @@ export default function ListPage() {
         ? prev.filter((b) => b !== benefit)
         : [...prev, benefit],
     );
+  };
+
+  const toggleComparison = (cardId) => {
+    if (comparisonList.includes(cardId)) {
+      setComparisonList(comparisonList.filter((id) => id !== cardId));
+    } else {
+      if (comparisonList.length < 3) {
+        setComparisonList([...comparisonList, cardId]);
+      } else {
+        alert('카드는 최대 3개까지 비교할 수 있습니다.');
+      }
+    }
   };
 
   const allCompanies = [
