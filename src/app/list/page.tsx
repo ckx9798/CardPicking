@@ -208,12 +208,37 @@ export default function ListPage() {
                 </span>
               </div>
             </div>
+
+            {/* 카드 하단  */}
+            <div className="flex-grow p-5">
+              <h4 className="mb-3 text-sm font-semibold text-slate-800">
+                주요 혜택
+              </h4>
+              <ul className="space-y-2">
+                {card.major_benefits.slice(0, 3).map(
+                  (
+                    benefit,
+                    index, // 최대 3개만 표시
+                  ) => (
+                    <li
+                      key={index}
+                      className="flex items-center text-sm text-slate-600"
+                    >
+                      <span className="mr-2 text-lg">
+                        {getBenefitIcon(benefit)}
+                      </span>
+                      <span>{benefit}</span>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
           </div>
         ))}
       </main>
 
       {/* 카드 리스트 */}
-      <div className="space-y-6">
+      {/* <div className="space-y-6">
         {CardList.map((card) => (
           <CardItem
             key={card.id}
@@ -221,7 +246,7 @@ export default function ListPage() {
             onClick={() => router.push(`list/${card.id}`)}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
