@@ -170,6 +170,7 @@ export default function ListPage() {
           </span>
           의 카드를 찾았어요.
         </p>
+        {/* 필터링 추가 */}
         <select className="rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
           <option>인기순</option>
           <option>혜택 많은 순</option>
@@ -177,41 +178,39 @@ export default function ListPage() {
         </select>
       </div>
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-slate-600">
-          주요 혜택
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {allBenefits.map((benefit) => (
-            <button
-              key={benefit}
-              onClick={() => toggleBenefitFilter(benefit)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedBenefits.includes(benefit) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-            >
-              {benefit}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 필터 */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        <span className="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-800">
-          전월실적~50만원
-        </span>
-        <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-          신한카드
-        </span>
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-          C 2
-        </span>
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-          캐시백 이벤트
-        </span>
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-          연회비 지원
-        </span>
-      </div>
+      <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {filteredAndSortedCards.map((card) => (
+          <div
+            key={card.id}
+            className="group flex transform flex-col justify-between rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          >
+            {/* 카드 상단  */}
+            <div className="relative h-72 rounded-t-2xl bg-gradient-to-br from-indigo-400 via-blue-300 to-purple-300 px-5 py-8 text-white shadow-xl">
+              <img
+                src={card.image_url}
+                className="mb-4 h-32 w-auto rounded-xl"
+              />
+              <div className="text-md font-medium opacity-90">
+                {card.bank_name}
+              </div>
+              <div className="text-2xl font-extrabold tracking-tight md:text-2xl">
+                {card.card_name}
+              </div>
+              <p className="mt-1 line-clamp-2 text-sm opacity-80">
+                {card.card_description}
+              </p>
+              <div className="absolute top-14 right-5 flex flex-col gap-4">
+                <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
+                  할인 45,000
+                </span>
+                <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
+                  피킹률 10%
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </main>
 
       {/* 카드 리스트 */}
       <div className="space-y-6">
