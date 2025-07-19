@@ -100,189 +100,193 @@ export default function ListPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-6 shadow">
-      {/* 헤더 */}
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight text-slate-800">
-          내게 꼭 맞는 카드 찾기
-        </h1>
-        <p className="mt-2 text-lg text-slate-500">
-          다양한 카드를 비교해보고 최고의 혜택을 찾아보세요.
-        </p>
-        <div className="relative mt-6">
-          <span className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-400">
-            {'🔍'}
-          </span>
-          <input
-            type="text"
-            placeholder="카드 이름이나 혜택으로 검색해보세요 (예: 삑, 쇼핑)"
-            className="w-full rounded-full border border-slate-300 bg-white py-3 pr-4 pl-12 text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </header>
-
-      {/* 필터섹션 */}
-      <div className="mb-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-slate-700">
-          상세 조건 설정
-        </h3>
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium text-slate-600">
-            카드사
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {allCompanies.map((company) => (
-              <button
-                key={company}
-                onClick={() => toggleCompanyFilter(company)}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedCompanies.includes(company) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-              >
-                {company}
-              </button>
-            ))}
+    <div className="min-h-screen bg-slate-50 font-sans">
+      <div className="mx-auto w-full max-w-6xl p-4 md:p-8">
+        {/* 헤더 */}
+        <header className="mb-8">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-800">
+            내게 꼭 맞는 카드 찾기
+          </h1>
+          <p className="mt-2 text-lg text-slate-500">
+            다양한 카드를 비교해보고 최고의 혜택을 찾아보세요.
+          </p>
+          <div className="relative mt-6">
+            <span className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-400">
+              {'🔍'}
+            </span>
+            <input
+              type="text"
+              placeholder="카드 이름이나 혜택으로 검색해보세요 (예: 삑, 쇼핑)"
+              className="w-full rounded-full border border-slate-300 bg-white py-3 pr-4 pl-12 text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-        </div>
-        <div>
-          <label className="mb-2 block text-sm font-medium text-slate-600">
-            주요 혜택
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {allBenefits.map((benefit) => (
-              <button
-                key={benefit}
-                onClick={() => toggleBenefitFilter(benefit)}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedBenefits.includes(benefit) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-              >
-                {benefit}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+        </header>
 
-      {/* 결과 헤더  */}
-      <div className="mb-6 flex items-center justify-between">
-        <p className="text-base font-medium text-slate-700">
-          <span className="font-bold text-indigo-600">
-            {filteredAndSortedCards.length}개
-          </span>
-          의 카드를 찾았어요.
-        </p>
-        {/* 필터링 추가 */}
-        <select className="rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-          <option>인기순</option>
-          <option>혜택 많은 순</option>
-          <option>연회비 낮은 순</option>
-        </select>
-      </div>
-
-      <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredAndSortedCards.map((card) => (
-          <div
-            key={card.id}
-            className="group flex transform flex-col justify-between rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-          >
-            {/* 카드 상단  */}
-            <div className="relative h-72 rounded-t-2xl bg-gradient-to-br from-indigo-400 via-blue-300 to-purple-300 px-5 py-8 text-white shadow-xl">
-              <img
-                src={card.image_url}
-                className="mb-4 h-32 w-auto rounded-xl"
-              />
-              <div className="text-md font-medium opacity-90">
-                {card.bank_name}
-              </div>
-              <div className="text-2xl font-extrabold tracking-tight md:text-2xl">
-                {card.card_name}
-              </div>
-              <p className="mt-1 line-clamp-2 text-sm opacity-80">
-                {card.card_description}
-              </p>
-              <div className="absolute top-14 right-5 flex flex-col gap-4">
-                <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
-                  할인 45,000
-                </span>
-                <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
-                  피킹률 10%
-                </span>
-              </div>
-            </div>
-
-            {/* 카드 하단  */}
-            <div className="flex-grow p-5">
-              <h4 className="mb-3 text-sm font-semibold text-slate-800">
-                주요 혜택
-              </h4>
-              <ul className="space-y-2">
-                {card.major_benefits.slice(0, 3).map(
-                  (
-                    benefit,
-                    index, // 최대 3개만 표시
-                  ) => (
-                    <li
-                      key={index}
-                      className="flex items-center text-sm text-slate-600"
-                    >
-                      <span className="mr-2 text-lg">
-                        {getBenefitIcon(benefit)}
-                      </span>
-                      <span>{benefit}</span>
-                    </li>
-                  ),
-                )}
-              </ul>
-            </div>
-
-            {/* 카드 footer*/}
-            <div className="border-t border-slate-100 p-5">
-              <div className="grid grid-cols-2 gap-3">
+        {/* 필터섹션 */}
+        <div className="mb-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="mb-4 text-lg font-semibold text-slate-700">
+            상세 조건 설정
+          </h3>
+          <div className="mb-4">
+            <label className="mb-2 block text-sm font-medium text-slate-600">
+              카드사
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {allCompanies.map((company) => (
                 <button
-                  onClick={() => toggleComparison(card.id)}
-                  className={`w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${comparisonList.includes(card.id) ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  key={company}
+                  onClick={() => toggleCompanyFilter(company)}
+                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedCompanies.includes(company) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
                 >
-                  {comparisonList.includes(card.id)
-                    ? '비교함에서 빼기'
-                    : '비교함에 담기'}
+                  {company}
                 </button>
-                <button
-                  onClick={() => router.push(`/list/${card.id}`)}
-                  className="w-full rounded-lg bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
-                >
-                  상세보기
-                </button>
-              </div>
+              ))}
             </div>
           </div>
-        ))}
-      </main>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-600">
+              주요 혜택
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {allBenefits.map((benefit) => (
+                <button
+                  key={benefit}
+                  onClick={() => toggleBenefitFilter(benefit)}
+                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${selectedBenefits.includes(benefit) ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                >
+                  {benefit}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
-      {/* 카드 비교하기 */}
-      {comparisonList.length > 0 && (
-        <div className="fixed right-0 bottom-0 left-0 z-50">
-          <div className="mx-auto max-w-6xl p-4">
-            <div className="flex items-center justify-between rounded-xl bg-slate-800 p-4 shadow-2xl">
-              <div>
-                <p className="font-semibold text-white">카드를 비교해보세요</p>
-                <p className="text-sm text-slate-300">
-                  {comparisonList.length}개의 카드가 선택되었어요.
+        {/* 결과 헤더  */}
+        <div className="mb-6 flex items-center justify-between">
+          <p className="text-base font-medium text-slate-700">
+            <span className="font-bold text-indigo-600">
+              {filteredAndSortedCards.length}개
+            </span>
+            의 카드를 찾았어요.
+          </p>
+          {/* 필터링 추가 */}
+          <select className="rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <option>인기순</option>
+            <option>혜택 많은 순</option>
+            <option>연회비 낮은 순</option>
+          </select>
+        </div>
+
+        <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredAndSortedCards.map((card) => (
+            <div
+              key={card.id}
+              className="group flex transform flex-col justify-between rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            >
+              {/* 카드 상단  */}
+              <div className="relative h-72 rounded-t-2xl bg-gradient-to-br from-indigo-400 via-blue-300 to-purple-300 px-5 py-8 text-white shadow-xl">
+                <img
+                  src={card.image_url}
+                  className="mb-4 h-32 w-auto rounded-xl"
+                />
+                <div className="text-md font-medium opacity-90">
+                  {card.bank_name}
+                </div>
+                <div className="text-2xl font-extrabold tracking-tight md:text-2xl">
+                  {card.card_name}
+                </div>
+                <p className="mt-1 line-clamp-2 text-sm opacity-80">
+                  {card.card_description}
                 </p>
+                <div className="absolute top-14 right-5 flex flex-col gap-4">
+                  <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
+                    할인 45,000
+                  </span>
+                  <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
+                    피킹률 10%
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setComparisonList([])}
-                  className="text-sm text-slate-400 hover:text-white"
-                >
-                  초기화
-                </button>
-                <button className="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white hover:bg-indigo-500">
-                  비교하기
-                </button>
+
+              {/* 카드 하단  */}
+              <div className="flex-grow p-5">
+                <h4 className="mb-3 text-sm font-semibold text-slate-800">
+                  주요 혜택
+                </h4>
+                <ul className="space-y-2">
+                  {card.major_benefits.slice(0, 3).map(
+                    (
+                      benefit,
+                      index, // 최대 3개만 표시
+                    ) => (
+                      <li
+                        key={index}
+                        className="flex items-center text-sm text-slate-600"
+                      >
+                        <span className="mr-2 text-lg">
+                          {getBenefitIcon(benefit)}
+                        </span>
+                        <span>{benefit}</span>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+
+              {/* 카드 footer*/}
+              <div className="border-t border-slate-100 p-5">
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => toggleComparison(card.id)}
+                    className={`w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${comparisonList.includes(card.id) ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  >
+                    {comparisonList.includes(card.id)
+                      ? '비교함에서 빼기'
+                      : '비교함에 담기'}
+                  </button>
+                  <button
+                    onClick={() => router.push(`/list/${card.id}`)}
+                    className="w-full rounded-lg bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
+                  >
+                    상세보기
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </main>
+
+        {/* 카드 비교하기 */}
+        {comparisonList.length > 0 && (
+          <div className="fixed right-0 bottom-0 left-0 z-50">
+            <div className="mx-auto max-w-6xl p-4">
+              <div className="flex items-center justify-between rounded-xl bg-slate-800 p-4 shadow-2xl">
+                <div>
+                  <p className="font-semibold text-white">
+                    카드를 비교해보세요
+                  </p>
+                  <p className="text-sm text-slate-300">
+                    {comparisonList.length}개의 카드가 선택되었어요.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setComparisonList([])}
+                    className="text-sm text-slate-400 hover:text-white"
+                  >
+                    초기화
+                  </button>
+                  <button className="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white hover:bg-indigo-500">
+                    비교하기
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
