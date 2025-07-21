@@ -49,6 +49,28 @@ export default function PostPage() {
   const [oil, setOil] = useState(0);
   const [telecom, setTelecom] = useState(0);
 
+  // 최대 사용금액 계산 함수
+  function getMaxUsage(
+    benefit: Benefit,
+    selectedPreviousPayment: string | number,
+  ) {
+    if (!selectedPreviousPayment) return 0;
+    const grade = benefit.grades
+      ?.filter(
+        (g) => Number(g.required_payment) <= Number(selectedPreviousPayment),
+      )
+      .sort(
+        (a, b) => Number(b.required_payment) - Number(a.required_payment),
+      )[0];
+    if (!grade) return 0;
+    if (benefit.discount_rate) {
+      return Math.floor(Number(grade.max_benefit) / benefit.discount_rate);
+    } else {
+      // 할인율이 없으면 최대 혜택 금액만 입력
+      return Number(grade.max_benefit);
+    }
+  }
+
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
