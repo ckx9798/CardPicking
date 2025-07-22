@@ -71,6 +71,26 @@ export default function PostPage() {
     }
   }
 
+  // 스위치 토글 핸들러
+  const handleSwitchToggle = (benefit: Benefit) => {
+    const isOn = !switchStates[benefit.id];
+    setSwitchStates((prev) => ({
+      ...prev,
+      [benefit.id]: isOn,
+    }));
+    if (benefit.discount_rate) {
+      setFormValues((prev) => ({
+        ...prev,
+        [benefit.id]: isOn ? getMaxUsage(benefit, selectedPreviousPayment) : '',
+      }));
+    } else {
+      setFormValues((prev) => ({
+        ...prev,
+        [benefit.id]: isOn ? getMaxUsage(benefit, selectedPreviousPayment) : 0,
+      }));
+    }
+  };
+
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
