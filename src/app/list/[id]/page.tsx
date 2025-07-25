@@ -49,6 +49,67 @@ export default function PostPage() {
   const [oil, setOil] = useState(0);
   const [telecom, setTelecom] = useState(0);
 
+  // 최대 사용금액 계산 함수
+  function getMaxUsage(
+    benefit: Benefit,
+    selectedPreviousPayment: string | number,
+  ) {
+    if (!selectedPreviousPayment) return 0;
+    const grade = benefit.grades
+      ?.filter(
+        (g) => Number(g.required_payment) <= Number(selectedPreviousPayment),
+      )
+      .sort(
+        (a, b) => Number(b.required_payment) - Number(a.required_payment),
+      )[0];
+    if (!grade) return 0;
+    if (benefit.discount_rate) {
+      return Math.floor(Number(grade.max_benefit) / benefit.discount_rate);
+    } else {
+      // 할인율이 없으면 최대 혜택 금액만 입력
+      return Number(grade.max_benefit);
+    }
+  }
+
+  // 스위치 토글 핸들러
+  const handleSwitchToggle = (benefit: Benefit) => {
+    const isOn = !switchStates[benefit.id];
+    setSwitchStates((prev) => ({
+      ...prev,
+      [benefit.id]: isOn,
+    }));
+    if (benefit.discount_rate) {
+      setFormValues((prev) => ({
+        ...prev,
+        [benefit.id]: isOn ? getMaxUsage(benefit, selectedPreviousPayment) : '',
+      }));
+    } else {
+      setFormValues((prev) => ({
+        ...prev,
+        [benefit.id]: isOn ? getMaxUsage(benefit, selectedPreviousPayment) : 0,
+      }));
+    }
+  };
+
+  // 입력값 변경 핸들러
+  const handleInputChange = (benefit: Benefit, value: string) => {
+    if (benefit.discount_rate === undefined || benefit.discount_rate === null)
+      return; // Only for benefits with discount_rate
+    let v = Number(value);
+    const maxUsage = getMaxUsage(benefit, selectedPreviousPayment);
+    if (v > maxUsage) v = maxUsage;
+    if (v < 0) v = 0;
+    setFormValues((prev) => ({
+      ...prev,
+      [benefit.id]: v,
+    }));
+    // 토글 상태를 해제(적용이 아닌 수동입력임을 표시)
+    setSwitchStates((prev) => ({
+      ...prev,
+      [benefit.id]: false,
+    }));
+  };
+
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
