@@ -103,12 +103,27 @@ export default function PostPage() {
       ...prev,
       [benefit.id]: v,
     }));
-    // 토글 상태를 해제(적용이 아닌 수동입력임을 표시)
     setSwitchStates((prev) => ({
       ...prev,
       [benefit.id]: false,
     }));
   };
+
+  // 할인액 계산 함수
+  function getDiscountedAmount(
+    benefit: Benefit,
+    selectedPrevPayment: string | number,
+  ) {
+    if (!selectedPrevPayment) return 0;
+    const grade = benefit.grades
+      ?.filter((g) => Number(g.required_payment) <= Number(selectedPrevPayment))
+      .sort(
+        (a, b) => Number(b.required_payment) - Number(a.required_payment),
+      )[0];
+    if (!grade) return 0;
+
+    }
+  }
 
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
@@ -147,8 +162,6 @@ export default function PostPage() {
             ))}
           </ul>
 
-          {/* <span>⛽☕🚗</span> */}
-
           <div className="mb-3">
             <h3 className="mb-2 text-lg font-semibold">전월실적</h3>
             <span className="text-gray500 ml-2">
@@ -164,7 +177,6 @@ export default function PostPage() {
                   ▪ {fee.company} {fee.fee}원
                 </span>
               ))}
-              {/* 국내용(S&) 10,000원 / 해외겸용 13,000원 */}
             </div>
           </div>
         </div>
