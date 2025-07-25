@@ -12,6 +12,7 @@ export default function ListPage() {
   const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [selectedBenefits, setSelectedBenefits] = useState([]);
   const [comparisonList, setComparisonList] = useState([]);
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   const filteredAndSortedCards = useMemo(() => {
     return mockCardData.filter((card) => {
@@ -184,56 +185,71 @@ export default function ListPage() {
             <div
               key={card.id}
               className="group flex transform flex-col justify-between rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
             >
-              {/* 카드 상단  */}
-              <div className="relative h-72 rounded-t-2xl bg-gradient-to-br from-indigo-400 via-blue-300 to-purple-300 px-5 py-8 text-white shadow-xl">
-                <img
-                  src={card.image_url}
-                  className="mb-4 h-32 w-auto rounded-xl"
-                />
-                <div className="text-md font-medium opacity-90">
-                  {card.bank_name}
+              {hoveredCard === card.id ? (
+                <div className="flex h-full items-center justify-center rounded-t-2xl bg-gradient-to-br from-indigo-400 via-blue-300 to-purple-300 p-5">
+                  <img
+                    src={card.image_url}
+                    alt={card.card_name}
+                    className="h-auto max-h-full w-full rounded-xl object-contain"
+                  />
                 </div>
-                <div className="text-2xl font-extrabold tracking-tight md:text-2xl">
-                  {card.card_name}
-                </div>
-                <p className="mt-1 line-clamp-2 text-sm opacity-80">
-                  {card.card_description}
-                </p>
-                <div className="absolute top-14 right-5 flex flex-col gap-4">
-                  <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
-                    할인 45,000
-                  </span>
-                  <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
-                    피킹률 10%
-                  </span>
-                </div>
-              </div>
+              ) : (
+                <>
+                  {/* 카드 상단  */}
+                  <div className="relative h-72 rounded-t-2xl bg-gradient-to-br from-indigo-400 via-blue-300 to-purple-300 px-5 py-8 text-white shadow-xl">
+                    <img
+                      src={card.image_url}
+                      alt={card.card_name}
+                      className="mb-4 h-32 w-auto rounded-xl"
+                    />
+                    <div className="text-md font-medium opacity-90">
+                      {card.bank_name}
+                    </div>
+                    <div className="text-2xl font-extrabold tracking-tight md:text-2xl">
+                      {card.card_name}
+                    </div>
+                    <p className="mt-1 line-clamp-2 text-sm opacity-80">
+                      {card.card_description}
+                    </p>
+                    <div className="absolute top-14 right-5 flex flex-col gap-4">
+                      <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
+                        할인 45,000
+                      </span>
+                      <span className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-indigo-700 shadow">
+                        피킹률 10%
+                      </span>
+                    </div>
+                  </div>
 
-              {/* 카드 하단  */}
-              <div className="flex-grow p-5">
-                <h4 className="mb-3 text-sm font-semibold text-slate-800">
-                  주요 혜택
-                </h4>
-                <ul className="space-y-2">
-                  {card.major_benefits.slice(0, 3).map(
-                    (
-                      benefit,
-                      index, // 최대 3개만 표시
-                    ) => (
-                      <li
-                        key={index}
-                        className="flex items-center text-sm text-slate-600"
-                      >
-                        <span className="mr-2 text-lg">
-                          {getBenefitIcon(benefit)}
-                        </span>
-                        <span>{benefit}</span>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </div>
+                  {/* 카드 하단  */}
+                  <div className="flex-grow p-5">
+                    <h4 className="mb-3 text-sm font-semibold text-slate-800">
+                      주요 혜택
+                    </h4>
+                    <ul className="space-y-2">
+                      {card.major_benefits.slice(0, 3).map(
+                        (
+                          benefit,
+                          index, // 최대 3개만 표시
+                        ) => (
+                          <li
+                            key={index}
+                            className="flex items-center text-sm text-slate-600"
+                          >
+                            <span className="mr-2 text-lg">
+                              {getBenefitIcon(benefit)}
+                            </span>
+                            <span>{benefit}</span>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                </>
+              )}
 
               {/* 카드 footer*/}
               <div className="border-t border-slate-100 p-5">
