@@ -91,6 +91,25 @@ export default function PostPage() {
     }
   };
 
+  // 입력값 변경 핸들러
+  const handleInputChange = (benefit: Benefit, value: string) => {
+    if (benefit.discount_rate === undefined || benefit.discount_rate === null)
+      return; // Only for benefits with discount_rate
+    let v = Number(value);
+    const maxUsage = getMaxUsage(benefit, selectedPreviousPayment);
+    if (v > maxUsage) v = maxUsage;
+    if (v < 0) v = 0;
+    setFormValues((prev) => ({
+      ...prev,
+      [benefit.id]: v,
+    }));
+    // 토글 상태를 해제(적용이 아닌 수동입력임을 표시)
+    setSwitchStates((prev) => ({
+      ...prev,
+      [benefit.id]: false,
+    }));
+  };
+
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
