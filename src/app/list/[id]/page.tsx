@@ -125,6 +125,32 @@ export default function PostPage() {
     }
   }
 
+  // 제출 시 전체 할인액 계산
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!selectedPreviousPayment) {
+        alert('전월실적을 선택하세요.');
+        return;
+      }
+      const discounts = Card.benefits.map((benefit) => {
+        const input =
+          formValues[benefit.id] !== undefined
+            ? Number(formValues[benefit.id])
+            : '';
+        const discount = getDiscountedAmount(
+          benefit,
+          selectedPreviousPayment,
+          input,
+        );
+        return {
+          title: benefit.title,
+          input,
+          discount,
+        };
+      });
+      setResult(discounts);
+    };
+    
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
