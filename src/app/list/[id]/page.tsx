@@ -125,7 +125,7 @@ export default function PostPage() {
     }
   }
 
-  // 제출 시 전체 할인액 계산
+  // 제출 전체 할인액 계산
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       if (!selectedPreviousPayment) {
@@ -150,7 +150,18 @@ export default function PostPage() {
       });
       setResult(discounts);
     };
-    
+
+  // 피킹률 계산 함수
+  function getPickingRate(
+    totalDiscount: number,
+    annualFee: number,
+    prevPayment: number,
+  ) {
+    if (!prevPayment || prevPayment === 0) return 0;
+    const pickingRate = ((totalDiscount - annualFee / 12) / prevPayment) * 100;
+    return pickingRate;
+  }
+
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
