@@ -162,13 +162,19 @@ export default function PostPage() {
     return pickingRate;
   }
 
+  const pickingRate = getPickingRate(
+    totalDiscount,
+    Number(selectedAnnualFee),
+    Number(selectedPreviousPayment),
+  );
+  
   // 연회비 옵션
   const annualFeeOptions = Card.annual_fee.map((fee) => ({
       label: `${fee.company} ${Number(fee.fee).toLocaleString()}원`,
       value: fee.fee,
     }));
 
-      // 결과 계산
+  // 총 할인 결과 계산
   const totalDiscount = result
     ? result.reduce((acc, cur) => acc + cur.discount, 0)
     : 0;
