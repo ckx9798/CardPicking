@@ -162,6 +162,13 @@ export default function PostPage() {
     return pickingRate;
   }
 
+    // 연회비 옵션
+    const annualFeeOptions = Card.annual_fee.map((fee) => ({
+      label: `${fee.company} ${Number(fee.fee).toLocaleString()}원`,
+      value: fee.fee,
+    }));
+    
+
   // 각 항목별 할인액 계산
   const transportDiscount = calcDiscount(transport, 0.1, 10000);
   const oilDiscount = calcDiscount(oil, 0.05, 15000);
