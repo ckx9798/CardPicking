@@ -174,23 +174,15 @@ export default function PostPage() {
       value: fee.fee,
     }));
 
-  // 총 할인 결과 계산
+  // 결과 계산
   const totalDiscount = result
     ? result.reduce((acc, cur) => acc + cur.discount, 0)
     : 0;
-
-  // 각 항목별 할인액 계산
-  const transportDiscount = calcDiscount(transport, 0.1, 10000);
-  const oilDiscount = calcDiscount(oil, 0.05, 15000);
-  const telecomDiscount = calcDiscount(telecom, 0.03, 5000);
-
-  // 총 할인액
-  const totalDiscount = transportDiscount + oilDiscount + telecomDiscount;
-
-  function calcDiscount(amount, rate, max) {
-    const discount = amount * rate;
-    return discount > max ? max : discount;
-  }
+  const pickingRate = getPickingRate(
+    totalDiscount,
+    Number(selectedAnnualFee),
+    Number(selectedPreviousPayment),
+  );
 
   return (
     <div className="bg-white">
