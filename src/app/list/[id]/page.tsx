@@ -184,6 +184,14 @@ export default function PostPage() {
     Number(selectedPreviousPayment),
   );
 
+  // 실적 변경 클린업 함수
+  const handlePrevPaymentChange = (opt: number) => {
+    setSelectedPreviousPayment(opt.toString()); // Ensure it's a string for consistency if needed
+    setSwitchStates({});
+    setFormValues({});
+    setResult(null);
+  };
+
   return (
     <div className="bg-white">
       <div className="text-text flex flex-col items-center bg-white py-10">
