@@ -221,6 +221,25 @@ export default function DynamicDiscountForm() {
           ))}
         </select>
       </div>
+
+      {/* 혜택계산 */}
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {Card.benefits.map((benefit) => {
+          const isNoRate =
+            benefit.discount_rate === undefined ||
+            benefit.discount_rate === null;
+          const isApplied = !!switchStates[benefit.id];
+          const maxUsage = getMaxUsage(benefit, selectedPreviousPayment);
+          const value =
+            formValues[benefit.id] !== undefined ? formValues[benefit.id] : '';
+        })}
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-green-600 py-3 text-lg font-bold text-white shadow-md transition duration-300 hover:bg-green-700"
+        >
+          할인액 계산하기
+        </button>
+      </form>
     </div>
   );
 }
