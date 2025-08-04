@@ -232,6 +232,34 @@ export default function DynamicDiscountForm() {
           const maxUsage = getMaxUsage(benefit, selectedPreviousPayment);
           const value =
             formValues[benefit.id] !== undefined ? formValues[benefit.id] : '';
+
+          return (
+            <div
+              key={benefit.id}
+              className="rounded-3xl border border-gray-200 bg-white p-4"
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <label className="block text-lg font-medium text-gray-800">
+                  {benefit.title}
+                  {benefit.discount_rate
+                    ? ` (${(benefit.discount_rate * 100).toFixed(0)}% 할인)`
+                    : ''}
+                </label>
+                <label className="flex cursor-pointer items-center">
+                  <span className="mr-2 text-sm text-gray-600">
+                    최대 혜택 적용
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={isApplied}
+                    onChange={() => handleSwitchToggle(benefit)}
+                    className="peer sr-only"
+                  />
+                  <div className="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-green-600 peer-focus:ring-2 peer-focus:ring-green-300 peer-focus:outline-none after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+                </label>
+              </div>
+            </div>
+          );
         })}
         <button
           type="submit"
