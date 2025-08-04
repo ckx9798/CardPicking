@@ -258,6 +258,25 @@ export default function DynamicDiscountForm() {
                   <div className="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-green-600 peer-focus:ring-2 peer-focus:ring-green-300 peer-focus:outline-none after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
                 </label>
               </div>
+              <input
+                type="number"
+                className={`w-full rounded-lg border px-4 py-2 text-lg focus:ring-2 focus:ring-green-400 focus:outline-none ${isNoRate ? 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500' : 'border-gray-300 bg-white'}`}
+                placeholder={
+                  isNoRate
+                    ? '최대값만 자동 적용'
+                    : `${benefit.title} 사용금액 입력 (최대 ${maxUsage.toLocaleString()}원)`
+                }
+                value={isNoRate ? (isApplied ? maxUsage : 0) : value}
+                onChange={
+                  isNoRate
+                    ? undefined
+                    : (e) => handleInputChange(benefit, e.target.value)
+                }
+                min={0}
+                max={maxUsage === 0 ? undefined : maxUsage}
+                readOnly={isNoRate}
+                disabled={isNoRate}
+              />
             </div>
           );
         })}
