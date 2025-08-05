@@ -277,6 +277,14 @@ export default function DynamicDiscountForm() {
                 readOnly={isNoRate}
                 disabled={isNoRate}
               />
+              {!isNoRate && selectedPreviousPayment && (
+                <p className="mt-2 text-sm text-gray-500">
+                  선택된 실적 기준, 최대 사용금액:{' '}
+                  <span className="font-semibold">
+                    {maxUsage.toLocaleString()}원
+                  </span>
+                </p>
+              )}
             </div>
           );
         })}
