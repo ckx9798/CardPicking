@@ -285,6 +285,14 @@ export default function DynamicDiscountForm() {
                   </span>
                 </p>
               )}
+              {isNoRate && selectedPreviousPayment && (
+                <p className="mt-2 text-sm text-gray-500">
+                  선택된 실적 기준, 혜택 금액:{' '}
+                  <span className="font-semibold">
+                    {maxUsage.toLocaleString()}원
+                  </span>
+                </p>
+              )}
             </div>
           );
         })}
